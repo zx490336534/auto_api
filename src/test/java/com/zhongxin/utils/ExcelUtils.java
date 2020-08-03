@@ -33,7 +33,7 @@ public class ExcelUtils {
     public static List read(int sheetIndex, int sheetNum, Class clazz) {
         try {
             // 1. excel文件流
-            FileInputStream fis = new FileInputStream("src/test/resources/cases_v1.xls");
+            FileInputStream fis = new FileInputStream("src/test/resources/cases_v3.xlsx");
             // 2. easypoi 导入参数
             ImportParams params = new ImportParams();
             params.setStartSheetIndex(sheetIndex);//从第x个sheet开始读取

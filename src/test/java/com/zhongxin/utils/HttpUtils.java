@@ -1,5 +1,7 @@
 package com.zhongxin.utils;
 
+import com.alibaba.fastjson.JSONObject;
+import com.zhongxin.pojo.CaseInfo;
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;
@@ -14,10 +16,60 @@ import org.apache.http.util.EntityUtils;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
 public class HttpUtils {
+    /**
+     * 根据请求参数对象
+     * */
+    public static void call(CaseInfo caseInfo) {
+        try {
+            HashMap<String, String> headers = new HashMap<>();
+            headers.put("X-Lemonban-Media-Type", "lemonban.v1");
+
+            String params = caseInfo.getParams();
+            String url = caseInfo.getUrl();
+            String method = caseInfo.getMethod();
+            String contentType = caseInfo.getContentType();
+
+            if ("json".equals(contentType)) {
+                headers.put("Content-Type", "application/json");
+            } else if ("form".equals(contentType)) {
+                params = jsonStr2KeyValueStr(params);
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+            }
+
+            if ("post".equals(method)) {
+                HttpUtils.post(url, params, headers);
+            } else if ("get".equals(method)) {
+                HttpUtils.get(url, headers);
+            } else if ("patch".equals(method)) {
+                HttpUtils.patch(url, params, headers);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * json字符串转换成key=value
+     * 例如:{"mobilephone":"13877788811","pwd":"12345678"} => mobilephone=13877788811&pwd=12345678
+     *
+     * @param json Json字符串
+     * @return
+     */
+    private static String jsonStr2KeyValueStr(String json) {
+        Map<String, String> map = JSONObject.parseObject(json, Map.class);
+        String formParams = "";
+        for (String key : map.keySet()) {
+            formParams += key + "=" + map.get(key) + "&";
+        }
+        return formParams.substring(0, formParams.length() - 1);
+    }
+
+
     /*
      * 发送get请求
      * @param url       接口地址

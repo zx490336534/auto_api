@@ -6,20 +6,20 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
  * excel 表格映射
  */
 public class CaseInfo {
-
-    @Excel(name = "CaseId(用例编号)")
+    // 期望结果		sql
+    @Excel(name = "用例编号")
     private int id;
-    @Excel(name = "Name(接口名)")
+    @Excel(name = "接口名称")
     private String name;
-    @Excel(name = "Type(接口提交类型)")
+    @Excel(name = "请求方式")
     private String method;
-    @Excel(name = "Url(接口地址)")
+    @Excel(name = "url")
     private String url;
-    @Excel(name = "Desc(用例描述)")
+    @Excel(name = "用例描述)")
     private String desc;
-    @Excel(name = "Params(参数)")
+    @Excel(name = "参数")
     private String params;
-    @Excel(name = "Content-Type")
+    @Excel(name = "参数类型")
     private String contentType;
 
 
