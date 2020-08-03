@@ -7,6 +7,7 @@ import com.zhongxin.utils.HttpUtils;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -17,7 +18,21 @@ public class RegisterCase {
     @Test(dataProvider = "datas")
     public void test(CaseInfo caseInfo) {
         try {
-            HttpUtils.post(caseInfo.getUrl(), caseInfo.getParams());
+            HashMap<String, String> headers = new HashMap<>();
+            headers.put("X-Lemonban-Media-Type", "lemonban.v1");
+            String contentType = caseInfo.getContentType();
+            if ("json".equals(contentType)) {
+                headers.put("Content-Type", "application/json");
+            } else if ("form".equals(contentType)) {
+                headers.put("Content-Type", "application/x-www-form-urlencoded");
+            }
+            if ("post".equals(caseInfo.getMethod())) {
+                HttpUtils.post(caseInfo.getUrl(), caseInfo.getParams(), headers);
+            } else if ("get".equals(caseInfo.getMethod())) {
+                HttpUtils.get(caseInfo.getUrl(), headers);
+            } else if ("patch".equals(caseInfo.getMethod())) {
+                HttpUtils.patch(caseInfo.getUrl(), caseInfo.getParams(), headers);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
