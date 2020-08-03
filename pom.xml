@@ -1,4 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project [
+        <!ELEMENT project (modelVersion|groupId|artifactId|version|properties|dependencies)*>
+        <!ATTLIST project
+                xmlns CDATA #REQUIRED
+                xmlns:xsi CDATA #REQUIRED
+                xsi:schemaLocation CDATA #REQUIRED>
+        <!ELEMENT modelVersion (#PCDATA)>
+        <!ELEMENT groupId (#PCDATA)>
+        <!ELEMENT artifactId (#PCDATA)>
+        <!ELEMENT version (#PCDATA)>
+        <!ELEMENT properties (maven.compiler.target|maven.compiler.source|project.build.sourceEncoding|project.reporting.outputEncoding|maven.compiler.encoding|aspectj.version)*>
+        <!ELEMENT maven.compiler.target (#PCDATA)>
+        <!ELEMENT maven.compiler.source (#PCDATA)>
+        <!ELEMENT project.build.sourceEncoding (#PCDATA)>
+        <!ELEMENT project.reporting.outputEncoding (#PCDATA)>
+        <!ELEMENT maven.compiler.encoding (#PCDATA)>
+        <!ELEMENT aspectj.version (#PCDATA)>
+        <!ELEMENT dependencies (dependency)*>
+        <!ELEMENT dependency (groupId|artifactId|version|scope)*>
+        <!ELEMENT scope (#PCDATA)>
+        ]>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
@@ -43,6 +64,12 @@
             <groupId>cn.afterturn</groupId>
             <artifactId>easypoi-annotation</artifactId>
             <version>4.0.0</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>1.2.68</version>
         </dependency>
 
     </dependencies>
