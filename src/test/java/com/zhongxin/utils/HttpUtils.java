@@ -23,34 +23,31 @@ import java.util.Set;
 public class HttpUtils {
     /**
      * 根据请求参数对象
-     * */
-    public static void call(CaseInfo caseInfo) {
+     */
+    public static String call(CaseInfo caseInfo, Map<String, String> headers) {
+        String responseBody = "";
         try {
-            HashMap<String, String> headers = new HashMap<>();
-            headers.put("X-Lemonban-Media-Type", "lemonban.v1");
-
             String params = caseInfo.getParams();
             String url = caseInfo.getUrl();
             String method = caseInfo.getMethod();
             String contentType = caseInfo.getContentType();
 
-            if ("json".equals(contentType)) {
-                headers.put("Content-Type", "application/json");
-            } else if ("form".equals(contentType)) {
+            if ("form".equals(contentType)) {
                 params = jsonStr2KeyValueStr(params);
                 headers.put("Content-Type", "application/x-www-form-urlencoded");
             }
 
             if ("post".equals(method)) {
-                HttpUtils.post(url, params, headers);
+                responseBody = HttpUtils.post(url, params, headers);
             } else if ("get".equals(method)) {
-                HttpUtils.get(url, headers);
+                responseBody = HttpUtils.get(url, headers);
             } else if ("patch".equals(method)) {
-                HttpUtils.patch(url, params, headers);
+                responseBody = HttpUtils.patch(url, params, headers);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return responseBody;
     }
 
     /**
@@ -75,12 +72,12 @@ public class HttpUtils {
      * @param url       接口地址
      * @throws
      * */
-    public static void get(String url, Map<String, String> headers) throws Exception {
+    public static String get(String url, Map<String, String> headers) throws Exception {
         HttpGet get = new HttpGet(url);
         setHeaders(headers, get);
         HttpClient client = HttpClients.createDefault();
         HttpResponse response = client.execute(get);
-        printResponse(response);
+        return printResponse(response);
     }
 
 
@@ -90,14 +87,14 @@ public class HttpUtils {
      * @param params     接口参数
      * @throws
      * */
-    public static void post(String url, String params, Map<String, String> headers) throws Exception {
+    public static String post(String url, String params, Map<String, String> headers) throws Exception {
         HttpPost post = new HttpPost(url);
         setHeaders(headers, post);
         StringEntity body = new StringEntity(params, "utf-8");
         post.setEntity(body);
         HttpClient client = HttpClients.createDefault();
         HttpResponse response = client.execute(post);
-        printResponse(response);
+        return printResponse(response);
     }
 
 
@@ -107,14 +104,14 @@ public class HttpUtils {
      * @param params     接口参数
      * @throws
      * */
-    public static void patch(String url, String params, Map<String, String> headers) throws Exception {
+    public static String patch(String url, String params, Map<String, String> headers) throws Exception {
         HttpPatch patch = new HttpPatch(url);
         setHeaders(headers, patch);
         StringEntity body = new StringEntity(params, "utf-8");
         patch.setEntity(body);
         HttpClient client = HttpClients.createDefault();
         HttpResponse response = client.execute(patch);
-        printResponse(response);
+        return printResponse(response);
     }
 
     /**

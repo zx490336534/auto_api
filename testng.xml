@@ -13,4 +13,10 @@
             <parameter name="sheetIndex" value="1"></parameter>
         </classes>
     </test>
+    <test name="充值接口">
+        <classes>
+            <class name="com.zhongxin.cases.RechargeCase"/>
+            <parameter name="sheetIndex" value="2"></parameter>
+        </classes>
+    </test>
 </suite>
