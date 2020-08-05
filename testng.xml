@@ -4,11 +4,13 @@
     <test name="注册接口">
         <classes>
             <class name="com.zhongxin.cases.RegisterCase"/>
+                <parameter name="sheetIndex" value="0"></parameter>
         </classes>
     </test>
     <test name="登陆接口">
         <classes>
             <class name="com.zhongxin.cases.LoginCase"/>
+            <parameter name="sheetIndex" value="1"></parameter>
         </classes>
     </test>
 </suite>
