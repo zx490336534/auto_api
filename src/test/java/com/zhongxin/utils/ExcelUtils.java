@@ -5,8 +5,12 @@ import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
 import com.zhongxin.pojo.API;
 import com.zhongxin.pojo.CaseInfo;
+import com.zhongxin.pojo.WriteBackData;
+import org.apache.poi.ss.usermodel.*;
 
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ExcelUtils {
@@ -21,6 +25,8 @@ public class ExcelUtils {
             System.out.println(api);
         }
     }
+
+    public static List<WriteBackData> wdbList = new ArrayList<>();
 
     /**
      * 读取excel数据后封装到指定对象中
@@ -48,5 +54,26 @@ public class ExcelUtils {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static void batchWrite() throws Exception {
+        //回写的逻辑：遍历wdbList集合，取出sheetIndex,rowNum,cellNum,content
+        FileInputStream fis = new FileInputStream("src/test/resources/cases_v3.xlsx");
+        Workbook sheets = WorkbookFactory.create(fis);
+        for (WriteBackData wdb : wdbList) {
+            int sheetIndex = wdb.getSheetIndex();
+            int rowNum = wdb.getRowNum();
+            int cellNum = wdb.getCellNum();
+            String content = wdb.getContent();
+
+            Sheet sheet = sheets.getSheetAt(sheetIndex);
+            Row row = sheet.getRow(rowNum);
+            Cell cell = row.getCell(cellNum, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
+            cell.setCellValue(content);
+        }
+        FileOutputStream fos = new FileOutputStream("src/test/resources/cases_v3.xlsx");
+        sheets.write(fos);
+        fis.close();
+        fos.close();
     }
 }

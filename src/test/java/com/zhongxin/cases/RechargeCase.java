@@ -2,6 +2,7 @@ package com.zhongxin.cases;
 
 import com.alibaba.fastjson.JSONPath;
 import com.zhongxin.pojo.CaseInfo;
+import com.zhongxin.pojo.WriteBackData;
 import com.zhongxin.utils.ExcelUtils;
 import com.zhongxin.utils.HttpUtils;
 import com.zhongxin.utils.UserData;
@@ -16,14 +17,7 @@ import java.util.List;
 /**
  * 充值接口测试
  */
-public class RechargeCase {
-    public int sheetIndex;
-
-    @BeforeClass
-    @Parameters({"sheetIndex"})
-    public void beforeClass(int sheetIndex) {
-        this.sheetIndex = sheetIndex;
-    }
+public class RechargeCase extends BaseCase {
 
     @Test(dataProvider = "datas")
     public void test(CaseInfo caseInfo) {
@@ -31,7 +25,8 @@ public class RechargeCase {
         HashMap<String, String> headers = new HashMap<>();
         headers.put("Authorization", "Bearer " + token);
         headers.putAll(UserData.DEFAULT_HEADERS);
-        HttpUtils.call(caseInfo, headers);
+        String responseBody = HttpUtils.call(caseInfo, headers);
+        addWriteBackData(sheetIndex, caseInfo.getId(), 8, responseBody);
     }
 
     @DataProvider
