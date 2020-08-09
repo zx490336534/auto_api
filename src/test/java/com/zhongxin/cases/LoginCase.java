@@ -16,14 +16,8 @@ public class LoginCase extends BaseCase {
     @Test(dataProvider = "datas")
     public void test(CaseInfo caseInfo) {
         String responseBody = HttpUtils.call(caseInfo, UserData.DEFAULT_HEADERS);
-        Object token = JSONPath.read(responseBody, "$.data.token_info.token");
-        Object memberId = JSONPath.read(responseBody, "$.data.id");
-        if (token != null) {
-            UserData.VARS.put("${token}", token);
-        }
-        if (memberId != null) {
-            UserData.VARS.put("${member_id}", memberId);
-        }
+        getParams(responseBody, "$.data.token_info.token", "${token}");
+        getParams(responseBody, "$.data.id", "${member_id}");
 
         addWriteBackData(sheetIndex, caseInfo.getId(), 8, responseBody);
     }
