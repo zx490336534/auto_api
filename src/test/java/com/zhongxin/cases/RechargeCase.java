@@ -21,13 +21,12 @@ public class RechargeCase extends BaseCase {
 
     @Test(dataProvider = "datas")
     public void test(CaseInfo caseInfo) {
-        Object token = UserData.VARS.get("${token}");
-        HashMap<String, String> headers = new HashMap<>();
-        headers.put("Authorization", "Bearer " + token);
-        headers.putAll(UserData.DEFAULT_HEADERS);
+        HashMap<String, String> headers = getAuthorizationHeader();
         String responseBody = HttpUtils.call(caseInfo, headers);
         addWriteBackData(sheetIndex, caseInfo.getId(), 8, responseBody);
     }
+
+
 
     @DataProvider
     public Object[] datas() {

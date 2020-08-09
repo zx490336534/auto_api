@@ -8,6 +8,8 @@ import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
 
+import java.util.HashMap;
+
 public class BaseCase {
     public int sheetIndex;
 
@@ -34,6 +36,17 @@ public class BaseCase {
         if (token != null) {
             UserData.VARS.put(userDataKey, token);
         }
+    }
+
+    /**
+     * 获取鉴权头，并且加入默认请求头，返回头
+     */
+    public HashMap<String, String> getAuthorizationHeader() {
+        Object token = UserData.VARS.get("${token}");
+        HashMap<String, String> headers = new HashMap<>();
+        headers.put("Authorization", "Bearer " + token);
+        headers.putAll(UserData.DEFAULT_HEADERS);
+        return headers;
     }
 
     @AfterSuite
