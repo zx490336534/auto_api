@@ -21,7 +21,16 @@ public class CaseInfo {
     private String params;
     @Excel(name = "参数类型")
     private String contentType;
+    @Excel(name = "期望结果")
+    private String expectedResult;
 
+    public String getExpectedResult() {
+        return expectedResult;
+    }
+
+    public void setExpectedResult(String expectedResult) {
+        this.expectedResult = expectedResult;
+    }
 
     public int getId() {
         return id;
@@ -90,6 +99,7 @@ public class CaseInfo {
                 ", desc='" + desc + '\'' +
                 ", params='" + params + '\'' +
                 ", contentType='" + contentType + '\'' +
+                ", expectedResult='" + expectedResult + '\'' +
                 '}';
     }
 }

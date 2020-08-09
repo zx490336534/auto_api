@@ -23,6 +23,7 @@ public class RechargeCase extends BaseCase {
     public void test(CaseInfo caseInfo) {
         HashMap<String, String> headers = getAuthorizationHeader();
         String responseBody = HttpUtils.call(caseInfo, headers);
+        responseAssert(caseInfo.getExpectedResult(), responseBody);
         addWriteBackData(sheetIndex, caseInfo.getId(), 8, responseBody);
     }
 

@@ -24,6 +24,7 @@ public class RegisterCase extends BaseCase {
     @Test(dataProvider = "datas")
     public void test(CaseInfo caseInfo) {
         String responseBody = HttpUtils.call(caseInfo, UserData.DEFAULT_HEADERS);
+        responseAssert(caseInfo.getExpectedResult(), responseBody);
         addWriteBackData(sheetIndex, caseInfo.getId(), 8, responseBody);
     }
 
