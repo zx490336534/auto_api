@@ -30,13 +30,14 @@ public class RechargeCase extends BaseCase {
         responseAssert(caseInfo.getExpectedResult(), responseBody);
         addWriteBackData(sheetIndex, caseInfo.getId(), 8, responseBody);
         BigDecimal afterSQLresult = (BigDecimal) SQLUtils.getSingleResult(caseInfo.getSql());
-        sqlAssert(caseInfo, beforeSQLresult, afterSQLresult);
+        boolean sqlAssertFlag = sqlAssert(caseInfo, beforeSQLresult, afterSQLresult);
     }
 
     /**
      * 充值数据库断言
      */
-    public void sqlAssert(CaseInfo caseInfo, BigDecimal beforeSQLresult, BigDecimal afterSQLresult) {
+    public boolean sqlAssert(CaseInfo caseInfo, BigDecimal beforeSQLresult, BigDecimal afterSQLresult) {
+        boolean flag = false;
         if (StringUtils.isNotBlank(caseInfo.getSql())) {
             String amountStr = JSONPath.read(caseInfo.getParams(), "$.amount").toString();
             BigDecimal amout = new BigDecimal(amountStr);
@@ -44,10 +45,13 @@ public class RechargeCase extends BaseCase {
             // compareTo == 0 => 相等
             if (subtractResult.compareTo(amout) == 0) {
                 System.out.println("数据库断言成功");
+                flag = true;
             } else {
                 System.out.println("数据库断言失败");
+                flag = false;
             }
         }
+        return flag;
     }
 
 

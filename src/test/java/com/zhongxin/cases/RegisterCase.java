@@ -30,21 +30,24 @@ public class RegisterCase extends BaseCase {
         responseAssert(caseInfo.getExpectedResult(), responseBody);
         addWriteBackData(sheetIndex, caseInfo.getId(), 8, responseBody);
         Long afterSQLresult = (Long) SQLUtils.getSingleResult(caseInfo.getSql());
-        sqlAssert(caseInfo.getSql(), beforeSQLresult, afterSQLresult);
+        boolean sqlAssertFlag = sqlAssert(caseInfo.getSql(), beforeSQLresult, afterSQLresult);
     }
 
     /**
      * 数据库断言，因为每个接口的业务逻辑不一样，所以无法抽取到父类
-     *
-     * */
-    public void sqlAssert(String sql, Long beforeSQLresult, Long afterSQLresult) {
+     */
+    public boolean sqlAssert(String sql, Long beforeSQLresult, Long afterSQLresult) {
+        boolean flag = false;
         if (StringUtils.isNoneBlank(sql)) {
             if (beforeSQLresult == 0 && afterSQLresult == 1) {
                 System.out.println("数据库断言成功");
+                flag = true;
             } else {
                 System.out.println("数据库断言失败");
+                flag = false;
             }
         }
+        return flag;
     }
 
     @DataProvider
