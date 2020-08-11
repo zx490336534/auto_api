@@ -5,12 +5,15 @@ import com.zhongxin.pojo.CaseInfo;
 import com.zhongxin.pojo.WriteBackData;
 import com.zhongxin.utils.ExcelUtils;
 import com.zhongxin.utils.HttpUtils;
+import com.zhongxin.utils.SQLUtils;
 import com.zhongxin.utils.UserData;
+import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -21,12 +24,31 @@ public class RechargeCase extends BaseCase {
 
     @Test(dataProvider = "datas")
     public void test(CaseInfo caseInfo) {
+        BigDecimal beforeSQLresult = (BigDecimal) SQLUtils.getSingleResult(caseInfo.getSql());
         HashMap<String, String> headers = getAuthorizationHeader();
         String responseBody = HttpUtils.call(caseInfo, headers);
         responseAssert(caseInfo.getExpectedResult(), responseBody);
         addWriteBackData(sheetIndex, caseInfo.getId(), 8, responseBody);
+        BigDecimal afterSQLresult = (BigDecimal) SQLUtils.getSingleResult(caseInfo.getSql());
+        sqlAssert(caseInfo, beforeSQLresult, afterSQLresult);
     }
 
+    /**
+     * 充值数据库断言
+     */
+    public void sqlAssert(CaseInfo caseInfo, BigDecimal beforeSQLresult, BigDecimal afterSQLresult) {
+        if (StringUtils.isNotBlank(caseInfo.getSql())) {
+            String amountStr = JSONPath.read(caseInfo.getParams(), "$.amount").toString();
+            BigDecimal amout = new BigDecimal(amountStr);
+            BigDecimal subtractResult = afterSQLresult.subtract(beforeSQLresult);
+            // compareTo == 0 => 相等
+            if (subtractResult.compareTo(amout) == 0) {
+                System.out.println("数据库断言成功");
+            } else {
+                System.out.println("数据库断言失败");
+            }
+        }
+    }
 
 
     @DataProvider

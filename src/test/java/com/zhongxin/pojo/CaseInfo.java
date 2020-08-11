@@ -23,6 +23,31 @@ public class CaseInfo {
     private String contentType;
     @Excel(name = "期望结果")
     private String expectedResult;
+    @Excel(name = "sql")
+    private String sql;
+
+    @Override
+    public String toString() {
+        return "CaseInfo{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", method='" + method + '\'' +
+                ", url='" + url + '\'' +
+                ", desc='" + desc + '\'' +
+                ", params='" + params + '\'' +
+                ", contentType='" + contentType + '\'' +
+                ", expectedResult='" + expectedResult + '\'' +
+                ", sql='" + sql + '\'' +
+                '}';
+    }
+
+    public String getSql() {
+        return sql;
+    }
+
+    public void setSql(String sql) {
+        this.sql = sql;
+    }
 
     public String getExpectedResult() {
         return expectedResult;
@@ -89,17 +114,4 @@ public class CaseInfo {
     }
 
 
-    @Override
-    public String toString() {
-        return "CaseInfo{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", method='" + method + '\'' +
-                ", url='" + url + '\'' +
-                ", desc='" + desc + '\'' +
-                ", params='" + params + '\'' +
-                ", contentType='" + contentType + '\'' +
-                ", expectedResult='" + expectedResult + '\'' +
-                '}';
-    }
 }

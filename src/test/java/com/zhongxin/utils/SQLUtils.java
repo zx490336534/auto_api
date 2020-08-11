@@ -6,6 +6,7 @@ import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.commons.dbutils.handlers.MapHandler;
 import org.apache.commons.dbutils.handlers.ScalarHandler;
+import org.apache.commons.lang3.StringUtils;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -15,6 +16,29 @@ import java.util.Map;
 public class SQLUtils {
     public static void main(String[] args) throws Exception {
         scalarHandler();
+    }
+
+    public static Object getSingleResult(String sql) {
+        if (StringUtils.isBlank(sql)) {
+            return null;
+        }
+        // 1. 定义返回值
+        Object result = null;
+        try {
+            // 2. 创建DBUtils sql语句操作类
+            Connection conn = JDBCUtils.getConnection();
+            // 3. 获取数据库连接
+            QueryRunner runner = new QueryRunner();
+            // 4. 创建ScalarHandler，针对单行单列的数据
+            ScalarHandler handler = new ScalarHandler();
+            // 5. 执行sql语句
+            result = runner.query(conn, sql, handler);
+            // 6. 关闭数据库连接
+            JDBCUtils.close(conn);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 
     public static void scalarHandler() throws SQLException {
