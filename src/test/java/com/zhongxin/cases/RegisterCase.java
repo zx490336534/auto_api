@@ -25,6 +25,7 @@ public class RegisterCase extends BaseCase {
 
     @Test(dataProvider = "datas")
     public void test(CaseInfo caseInfo) {
+        paramsReplace(caseInfo);
         Long beforeSQLresult = (Long) SQLUtils.getSingleResult(caseInfo.getSql());
         String responseBody = HttpUtils.call(caseInfo, UserData.DEFAULT_HEADERS);
         responseAssert(caseInfo.getExpectedResult(), responseBody);
