@@ -39,7 +39,7 @@ public class ExcelUtils {
     public static List read(int sheetIndex, int sheetNum, Class clazz) {
         try {
             // 1. excel文件流
-            FileInputStream fis = new FileInputStream("src/test/resources/cases_v3.xlsx");
+            FileInputStream fis = new FileInputStream(Constants.EXCEL_PATH);
             // 2. easypoi 导入参数
             ImportParams params = new ImportParams();
             params.setStartSheetIndex(sheetIndex);//从第x个sheet开始读取
@@ -58,7 +58,7 @@ public class ExcelUtils {
 
     public static void batchWrite() throws Exception {
         //回写的逻辑：遍历wdbList集合，取出sheetIndex,rowNum,cellNum,content
-        FileInputStream fis = new FileInputStream("src/test/resources/cases_v3.xlsx");
+        FileInputStream fis = new FileInputStream(Constants.EXCEL_PATH);
         Workbook sheets = WorkbookFactory.create(fis);
         for (WriteBackData wdb : wdbList) {
             int sheetIndex = wdb.getSheetIndex();
@@ -71,7 +71,7 @@ public class ExcelUtils {
             Cell cell = row.getCell(cellNum, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);
             cell.setCellValue(content);
         }
-        FileOutputStream fos = new FileOutputStream("src/test/resources/cases_v3.xlsx");
+        FileOutputStream fos = new FileOutputStream(Constants.EXCEL_PATH);
         sheets.write(fos);
         fis.close();
         fos.close();

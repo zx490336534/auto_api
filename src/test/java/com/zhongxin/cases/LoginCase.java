@@ -1,20 +1,13 @@
 package com.zhongxin.cases;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
-import com.alibaba.fastjson.JSONPath;
-import com.sun.xml.internal.rngom.parse.host.Base;
 import com.zhongxin.pojo.CaseInfo;
-import com.zhongxin.pojo.WriteBackData;
+import com.zhongxin.utils.Constants;
 import com.zhongxin.utils.ExcelUtils;
 import com.zhongxin.utils.HttpUtils;
 import com.zhongxin.utils.UserData;
-import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.*;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class LoginCase extends BaseCase {
 
@@ -24,8 +17,12 @@ public class LoginCase extends BaseCase {
         String responseBody = HttpUtils.call(caseInfo, UserData.DEFAULT_HEADERS);
         getParams(responseBody, "$.data.token_info.token", "${token}");
         getParams(responseBody, "$.data.id", "${member_id}");
-        responseAssert(caseInfo.getExpectedResult(), responseBody);
-        addWriteBackData(sheetIndex, caseInfo.getId(), 8, responseBody);
+        boolean responseAssertFlag = responseAssert(caseInfo.getExpectedResult(), responseBody);
+        String assertResult = responseAssertFlag ? "PASSED" : "FAILED";
+        addWriteBackData(sheetIndex, caseInfo.getId(), Constants.PESPONSE_CELL_NUM, responseBody);
+        addWriteBackData(sheetIndex, caseInfo.getId(), Constants.ASSERT_CELL_NUM, assertResult);
+
+
     }
 
 

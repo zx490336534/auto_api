@@ -3,10 +3,7 @@ package com.zhongxin.cases;
 import com.alibaba.fastjson.JSONPath;
 import com.zhongxin.pojo.CaseInfo;
 import com.zhongxin.pojo.WriteBackData;
-import com.zhongxin.utils.ExcelUtils;
-import com.zhongxin.utils.HttpUtils;
-import com.zhongxin.utils.SQLUtils;
-import com.zhongxin.utils.UserData;
+import com.zhongxin.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
@@ -28,10 +25,13 @@ public class RechargeCase extends BaseCase {
         BigDecimal beforeSQLresult = (BigDecimal) SQLUtils.getSingleResult(caseInfo.getSql());
         HashMap<String, String> headers = getAuthorizationHeader();
         String responseBody = HttpUtils.call(caseInfo, headers);
-        responseAssert(caseInfo.getExpectedResult(), responseBody);
-        addWriteBackData(sheetIndex, caseInfo.getId(), 8, responseBody);
+        boolean responseAssertFlag = responseAssert(caseInfo.getExpectedResult(), responseBody);
         BigDecimal afterSQLresult = (BigDecimal) SQLUtils.getSingleResult(caseInfo.getSql());
         boolean sqlAssertFlag = sqlAssert(caseInfo, beforeSQLresult, afterSQLresult);
+        String assertResult = responseAssertFlag ? "PASSED" : "FAILED";
+        addWriteBackData(sheetIndex, caseInfo.getId(), Constants.PESPONSE_CELL_NUM, responseBody);
+        addWriteBackData(sheetIndex, caseInfo.getId(), Constants.ASSERT_CELL_NUM, assertResult);
+
     }
 
     /**
