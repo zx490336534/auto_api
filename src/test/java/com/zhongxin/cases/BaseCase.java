@@ -2,9 +2,11 @@ package com.zhongxin.cases;
 
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.JSONPath;
+import com.zhongxin.pojo.CaseInfo;
 import com.zhongxin.pojo.WriteBackData;
 import com.zhongxin.utils.ExcelUtils;
 import com.zhongxin.utils.UserData;
+import org.apache.commons.lang3.StringUtils;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
@@ -54,6 +56,7 @@ public class BaseCase {
 
     /**
      * 接口响应断言
+     *
      * @param expectedResult 断言的期望值
      * @param responseBody   接口响应内容
      * @return 接口响应断言结果
@@ -72,6 +75,37 @@ public class BaseCase {
         }
         System.out.println("断言结果:" + reponseAssertFlag);
         return reponseAssertFlag;
+    }
+
+    /**
+     * 参数化替换
+     * */
+    public void paramsReplace(CaseInfo caseInfo) {
+        Set<String> keySet = UserData.VARS.keySet();
+        for (String placeHolder : keySet) {
+            String value = UserData.VARS.get(placeHolder).toString();
+            String params = caseInfo.getParams();
+            String sql = caseInfo.getSql();
+            String expectedResult = caseInfo.getExpectedResult();
+            String url = caseInfo.getUrl();
+            if (StringUtils.isNotBlank(params)) {
+                params = params.replace(placeHolder, value);
+                caseInfo.setParams(params);
+            }
+            if (StringUtils.isNotBlank(sql)) {
+                sql = sql.replace(placeHolder, value);
+                caseInfo.setSql(sql);
+            }
+            if (StringUtils.isNotBlank(expectedResult)) {
+                expectedResult = expectedResult.replace(placeHolder, value);
+                caseInfo.setExpectedResult(expectedResult);
+            }
+            if (StringUtils.isNotBlank(url)) {
+                url = url.replace(placeHolder, value);
+                caseInfo.setUrl(url);
+            }
+
+        }
     }
 
     @AfterSuite
