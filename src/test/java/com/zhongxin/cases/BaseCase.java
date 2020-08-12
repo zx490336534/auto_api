@@ -79,33 +79,32 @@ public class BaseCase {
 
     /**
      * 参数化替换
-     * */
+     */
     public void paramsReplace(CaseInfo caseInfo) {
         Set<String> keySet = UserData.VARS.keySet();
+        String params = caseInfo.getParams();
+        String sql = caseInfo.getSql();
+        String expectedResult = caseInfo.getExpectedResult();
+        String url = caseInfo.getUrl();
         for (String placeHolder : keySet) {
             String value = UserData.VARS.get(placeHolder).toString();
-            String params = caseInfo.getParams();
-            String sql = caseInfo.getSql();
-            String expectedResult = caseInfo.getExpectedResult();
-            String url = caseInfo.getUrl();
             if (StringUtils.isNotBlank(params)) {
                 params = params.replace(placeHolder, value);
-                caseInfo.setParams(params);
             }
             if (StringUtils.isNotBlank(sql)) {
                 sql = sql.replace(placeHolder, value);
-                caseInfo.setSql(sql);
             }
             if (StringUtils.isNotBlank(expectedResult)) {
                 expectedResult = expectedResult.replace(placeHolder, value);
-                caseInfo.setExpectedResult(expectedResult);
             }
             if (StringUtils.isNotBlank(url)) {
                 url = url.replace(placeHolder, value);
-                caseInfo.setUrl(url);
             }
-
         }
+        caseInfo.setParams(params);
+        caseInfo.setSql(sql);
+        caseInfo.setExpectedResult(expectedResult);
+        caseInfo.setUrl(url);
     }
 
     @AfterSuite
