@@ -5,8 +5,10 @@ import com.alibaba.fastjson.JSONPath;
 import com.zhongxin.pojo.CaseInfo;
 import com.zhongxin.pojo.WriteBackData;
 import com.zhongxin.utils.ExcelUtils;
+import com.zhongxin.utils.HttpUtils;
 import com.zhongxin.utils.UserData;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.log4j.Logger;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Parameters;
@@ -17,6 +19,7 @@ import java.util.Set;
 
 public class BaseCase {
     public int sheetIndex;
+    private static Logger logger = Logger.getLogger(HttpUtils.class);
 
     @BeforeClass
     @Parameters({"sheetIndex"})
@@ -105,6 +108,7 @@ public class BaseCase {
         caseInfo.setSql(sql);
         caseInfo.setExpectedResult(expectedResult);
         caseInfo.setUrl(url);
+        logger.info(caseInfo);
     }
 
     @AfterSuite

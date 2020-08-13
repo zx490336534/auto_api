@@ -29,7 +29,7 @@ public class RechargeCase extends BaseCase {
         BigDecimal afterSQLresult = (BigDecimal) SQLUtils.getSingleResult(caseInfo.getSql());
         boolean sqlAssertFlag = sqlAssert(caseInfo, beforeSQLresult, afterSQLresult);
         String assertResult = responseAssertFlag ? "PASSED" : "FAILED";
-        addWriteBackData(sheetIndex, caseInfo.getId(), Constants.PESPONSE_CELL_NUM, responseBody);
+        addWriteBackData(sheetIndex, caseInfo.getId(), Constants.RESPONSE_CELL_NUM, responseBody);
         addWriteBackData(sheetIndex, caseInfo.getId(), Constants.ASSERT_CELL_NUM, assertResult);
 
     }

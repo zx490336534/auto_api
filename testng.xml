@@ -4,7 +4,7 @@
     <test name="注册接口">
         <classes>
             <class name="com.zhongxin.cases.RegisterCase"/>
-                <parameter name="sheetIndex" value="0"></parameter>
+            <parameter name="sheetIndex" value="0"></parameter>
         </classes>
     </test>
     <test name="登陆接口">
@@ -19,4 +19,29 @@
             <parameter name="sheetIndex" value="2"></parameter>
         </classes>
     </test>
+    <test name="新增项目">
+        <classes>
+            <class name="com.zhongxin.cases.AddCase"/>
+            <parameter name="sheetIndex" value="3"></parameter>
+        </classes>
+    </test>
+    <test name="管理员登陆">
+        <classes>
+            <class name="com.zhongxin.cases.LoginCase"/>
+            <parameter name="sheetIndex" value="4"></parameter>
+        </classes>
+    </test>
+    <test name="审核项目接口">
+        <classes>
+            <class name="com.zhongxin.cases.AuditCase"/>
+            <parameter name="sheetIndex" value="5"></parameter>
+        </classes>
+    </test>
+    <test name="投资接口">
+        <classes>
+            <class name="com.zhongxin.cases.InvestCase"/>
+            <parameter name="sheetIndex" value="6"></parameter>
+        </classes>
+    </test>
+
 </suite>

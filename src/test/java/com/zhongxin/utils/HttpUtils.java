@@ -13,6 +13,7 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -21,6 +22,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class HttpUtils {
+    private static Logger logger = Logger.getLogger(HttpUtils.class);
+
     /**
      * 根据请求参数对象
      */
@@ -32,16 +35,16 @@ public class HttpUtils {
             String method = caseInfo.getMethod();
             String contentType = caseInfo.getContentType();
 
-            if ("form".equals(contentType)) {
+            if ("form".equalsIgnoreCase(contentType)) {
                 params = jsonStr2KeyValueStr(params);
                 headers.put("Content-Type", "application/x-www-form-urlencoded");
             }
 
-            if ("post".equals(method)) {
+            if ("post".equalsIgnoreCase(method)) {
                 responseBody = HttpUtils.post(url, params, headers);
-            } else if ("get".equals(method)) {
+            } else if ("get".equalsIgnoreCase(method)) {
                 responseBody = HttpUtils.get(url, headers);
-            } else if ("patch".equals(method)) {
+            } else if ("patch".equalsIgnoreCase(method)) {
                 responseBody = HttpUtils.patch(url, params, headers);
             }
         } catch (Exception e) {
@@ -123,12 +126,12 @@ public class HttpUtils {
      */
     private static String printResponse(HttpResponse response) throws IOException {
         int statusCode = response.getStatusLine().getStatusCode();
-        System.out.println(statusCode);
+        logger.info(statusCode);
         Header[] allHeaders = response.getAllHeaders();
-        System.out.println(Arrays.toString(allHeaders));
+        logger.info(Arrays.toString(allHeaders));
         HttpEntity entity = response.getEntity();
         String body = EntityUtils.toString(entity);
-        System.out.println(body);
+        logger.info(body);
         return body;
     }
 

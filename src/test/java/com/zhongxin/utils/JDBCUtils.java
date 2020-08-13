@@ -9,9 +9,9 @@ public class JDBCUtils {
 
     public static Connection getConnection() {
         //定义数据库连接
-        String url = "jdbc:mysql://api.lemonban.com:3306/futureloan?useUnicode=true&characterEncoding=utf-8";
-        String user = "future";
-        String password = "123456";
+        String url = Constants.JDC_URL;
+        String user = Constants.JDBC_USERNAME;
+        String password = Constants.JDBC_PASSWORD;
         //定义数据库连接对象
         Connection conn = null;
         try {
