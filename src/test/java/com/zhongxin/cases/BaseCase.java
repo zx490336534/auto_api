@@ -40,9 +40,9 @@ public class BaseCase {
      * 从responseBody 通过Jsonpath取出对应参数，存到UserData中
      */
     public void getParams(String responseBody, String jsonPathExpression, String userDataKey) {
-        Object token = JSONPath.read(responseBody, jsonPathExpression);
-        if (token != null) {
-            UserData.VARS.put(userDataKey, token);
+        Object userDataValue = JSONPath.read(responseBody, jsonPathExpression);
+        if (userDataValue != null) {
+            UserData.VARS.put(userDataKey, userDataValue);
         }
     }
 
