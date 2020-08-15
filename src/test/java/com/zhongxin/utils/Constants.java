@@ -9,7 +9,7 @@ public class Constants {
     public static final int ASSERT_CELL_NUM = 10;
 
     public static final String ASSERT_SUCCESS = "PASSED";
-    public static final String ASSERT_FAILED = "PASSED";
+    public static final String ASSERT_FAILED = "FAILED";
 
 
     // 用例文件路径
