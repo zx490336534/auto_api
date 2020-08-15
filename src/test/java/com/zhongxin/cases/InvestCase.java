@@ -4,6 +4,7 @@ import com.zhongxin.pojo.CaseInfo;
 import com.zhongxin.utils.Constants;
 import com.zhongxin.utils.ExcelUtils;
 import com.zhongxin.utils.HttpUtils;
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -32,10 +33,11 @@ public class InvestCase extends BaseCase {
 //        6、数据库后置查询结果
 //        7、据库断言
 //        8、添加断言回写内容
-        String assertResult = responseAssertFlag ? "PASSED" : "FAILED";
+        String assertResult = responseAssertFlag ? Constants.ASSERT_SUCCESS : Constants.ASSERT_FAILED;
         addWriteBackData(sheetIndex,caseInfo.getId(),Constants.ASSERT_CELL_NUM, assertResult);
 //        9、添加日志
 //        10、报表断言
+        Assert.assertEquals(assertResult, Constants.ASSERT_SUCCESS);
     }
 
     @DataProvider

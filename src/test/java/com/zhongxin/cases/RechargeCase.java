@@ -5,6 +5,7 @@ import com.zhongxin.pojo.CaseInfo;
 import com.zhongxin.pojo.WriteBackData;
 import com.zhongxin.utils.*;
 import org.apache.commons.lang3.StringUtils;
+import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
@@ -28,10 +29,10 @@ public class RechargeCase extends BaseCase {
         boolean responseAssertFlag = responseAssert(caseInfo.getExpectedResult(), responseBody);
         BigDecimal afterSQLresult = (BigDecimal) SQLUtils.getSingleResult(caseInfo.getSql());
         boolean sqlAssertFlag = sqlAssert(caseInfo, beforeSQLresult, afterSQLresult);
-        String assertResult = responseAssertFlag ? "PASSED" : "FAILED";
+        String assertResult = responseAssertFlag ? Constants.ASSERT_SUCCESS : Constants.ASSERT_FAILED;
         addWriteBackData(sheetIndex, caseInfo.getId(), Constants.RESPONSE_CELL_NUM, responseBody);
         addWriteBackData(sheetIndex, caseInfo.getId(), Constants.ASSERT_CELL_NUM, assertResult);
-
+        Assert.assertEquals(assertResult, Constants.ASSERT_SUCCESS);
     }
 
     /**

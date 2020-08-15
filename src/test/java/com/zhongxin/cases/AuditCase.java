@@ -4,6 +4,7 @@ import com.zhongxin.pojo.CaseInfo;
 import com.zhongxin.utils.Constants;
 import com.zhongxin.utils.ExcelUtils;
 import com.zhongxin.utils.HttpUtils;
+import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -21,9 +22,10 @@ public class AuditCase extends BaseCase {
         HashMap<String, String> headers = getAuthorizationHeader();
         String responseBody = HttpUtils.call(caseInfo, headers);
         boolean responseAssertFlag = responseAssert(caseInfo.getExpectedResult(), responseBody);
-        String assertResult = responseAssertFlag ? "PASSED" : "FAILED";
+        String assertResult = responseAssertFlag ? Constants.ASSERT_SUCCESS : Constants.ASSERT_FAILED;
         addWriteBackData(sheetIndex, caseInfo.getId(), Constants.RESPONSE_CELL_NUM, responseBody);
         addWriteBackData(sheetIndex, caseInfo.getId(), Constants.ASSERT_CELL_NUM, assertResult);
+        Assert.assertEquals(assertResult, Constants.ASSERT_SUCCESS);
     }
 
 
