@@ -43,5 +43,10 @@
             <parameter name="sheetIndex" value="6"></parameter>
         </classes>
     </test>
-
+    <test name="管理员用户信息">
+        <classes>
+            <class name="com.zhongxin.cases.UserInfoCase"/>
+            <parameter name="sheetIndex" value="7"></parameter>
+        </classes>
+    </test>
 </suite>
