@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="xxx项目">
+    <test name="作业接口">
+        <classes>
+            <class name="com.zhongxin.cases.HomeWorkCase"/>
+            <parameter name="sheetIndex" value="0"></parameter>
+        </classes>
+    </test>
+
+</suite>

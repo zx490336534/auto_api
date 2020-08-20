@@ -52,7 +52,7 @@ public class BaseCase {
     public HashMap<String, String> getAuthorizationHeader() {
         Object token = UserData.VARS.get("${token}");
         HashMap<String, String> headers = new HashMap<>();
-        headers.put("Authorization", "Bearer " + token);
+        headers.put("Authorization", "JWT " + token);
         headers.putAll(UserData.DEFAULT_HEADERS);
         return headers;
     }
@@ -65,13 +65,15 @@ public class BaseCase {
      * @return 接口响应断言结果
      */
     public boolean responseAssert(String expectedResult, String responseBody) {
+        System.out.println(expectedResult);
+        System.out.println(responseBody);
         Map<String, Object> map = JSONObject.parseObject(expectedResult, Map.class);
         Set<String> keySet = map.keySet();
         boolean reponseAssertFlag = true;
         for (String actualExpression : keySet) {
             Object expectedValue = map.get(actualExpression);
             Object actualValue = JSONPath.read(responseBody, actualExpression);
-            if (!expectedValue.equals(actualValue)) {
+            if (!actualExpression.equals("token") && expectedValue != null && actualValue != null && !expectedValue.equals(actualValue)) {
                 reponseAssertFlag = false;
                 break;
             }

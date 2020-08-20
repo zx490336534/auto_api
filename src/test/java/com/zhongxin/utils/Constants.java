@@ -13,7 +13,7 @@ public class Constants {
 
 
     // 用例文件路径
-    public static final String EXCEL_PATH = "src/test/resources/cases_v3.xlsx";
+    public static final String EXCEL_PATH = "src/test/resources/cases_keyou.xlsx";
     public static final String JDC_URL = "jdbc:mysql://api.lemonban.com:3306/futureloan?useUnicode=true&characterEncoding=utf-8";
     public static final String JDBC_USERNAME = "future";
     public static final String JDBC_PASSWORD = "123456";
