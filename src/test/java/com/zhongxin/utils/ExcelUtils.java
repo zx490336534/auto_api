@@ -1,11 +1,12 @@
 package com.zhongxin.utils;
 
-
 import cn.afterturn.easypoi.excel.ExcelImportUtil;
 import cn.afterturn.easypoi.excel.entity.ImportParams;
+
 import com.zhongxin.pojo.API;
 import com.zhongxin.pojo.CaseInfo;
 import com.zhongxin.pojo.WriteBackData;
+
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.FileInputStream;
@@ -13,10 +14,18 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Excel操作文件
+ */
 public class ExcelUtils {
+    /**
+     * 测试读取Excel
+     *
+     * @param args
+     */
     public static void main(String[] args) {
-        List<CaseInfo> list = read(0, 1, CaseInfo.class);
-        List<API> list2 = read(1, 1, API.class);
+        List<CaseInfo> list = read(null, 0, 1, CaseInfo.class);
+        List<API> list2 = read(Constants.EXCEL_API_PATH, 1, 1, API.class);
         for (CaseInfo caseInfo : list) {
             System.out.println(caseInfo);
         }
@@ -26,6 +35,9 @@ public class ExcelUtils {
         }
     }
 
+    /**
+     * 存放待写入excel的数据
+     */
     public static List<WriteBackData> wdbList = new ArrayList<>();
 
     /**
@@ -36,10 +48,10 @@ public class ExcelUtils {
      * @param clazz      excel映射类字节对象
      * @return
      */
-    public static List read(int sheetIndex, int sheetNum, Class clazz) {
+    public static List read(String excelPath, int sheetIndex, int sheetNum, Class clazz) {
         try {
             // 1. excel文件流
-            FileInputStream fis = new FileInputStream(Constants.EXCEL_PATH);
+            FileInputStream fis = new FileInputStream(excelPath != null ? excelPath : Constants.EXCEL_PATH);
             // 2. easypoi 导入参数
             ImportParams params = new ImportParams();
             params.setStartSheetIndex(sheetIndex);//从第x个sheet开始读取
@@ -49,15 +61,19 @@ public class ExcelUtils {
             // 4. 关流
             fis.close();
             return caseInfoList;
-
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
+    /**
+     * 批量写入Excel
+     *
+     * @throws Exception
+     */
     public static void batchWrite() throws Exception {
-        //回写的逻辑：遍历wdbList集合，取出sheetIndex,rowNum,cellNum,content
+        //回写的逻辑：遍历wdbList集合，取出sheetIndex, rowNum, cellNum, content
         FileInputStream fis = new FileInputStream(Constants.EXCEL_PATH);
         Workbook sheets = WorkbookFactory.create(fis);
         for (WriteBackData wdb : wdbList) {
@@ -65,7 +81,6 @@ public class ExcelUtils {
             int rowNum = wdb.getRowNum();
             int cellNum = wdb.getCellNum();
             String content = wdb.getContent();
-
             Sheet sheet = sheets.getSheetAt(sheetIndex);
             Row row = sheet.getRow(rowNum);
             Cell cell = row.getCell(cellNum, Row.MissingCellPolicy.CREATE_NULL_AS_BLANK);

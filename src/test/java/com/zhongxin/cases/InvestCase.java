@@ -42,7 +42,7 @@ public class InvestCase extends BaseCase {
 
     @DataProvider
     public Object[] datas() throws Exception {
-        List<CaseInfo> list = ExcelUtils.read(sheetIndex, 1, CaseInfo.class);
+        List<CaseInfo> list = ExcelUtils.read(null, sheetIndex, 1, CaseInfo.class);
         return list.toArray();
     }
 }

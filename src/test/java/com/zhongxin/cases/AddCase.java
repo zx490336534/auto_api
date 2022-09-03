@@ -1,17 +1,14 @@
 package com.zhongxin.cases;
 
-import com.alibaba.fastjson.JSONPath;
 import com.zhongxin.pojo.CaseInfo;
 import com.zhongxin.utils.Constants;
 import com.zhongxin.utils.ExcelUtils;
 import com.zhongxin.utils.HttpUtils;
-import com.zhongxin.utils.SQLUtils;
-import org.apache.commons.lang3.StringUtils;
+
 import org.testng.Assert;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
-import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -33,10 +30,9 @@ public class AddCase extends BaseCase {
         Assert.assertEquals(assertResult, Constants.ASSERT_SUCCESS);
     }
 
-
     @DataProvider
     public Object[] datas() {
-        List list = ExcelUtils.read(this.sheetIndex, 1, CaseInfo.class);
+        List list = ExcelUtils.read(null, this.sheetIndex, 1, CaseInfo.class);
         return list.toArray();
     }
 }

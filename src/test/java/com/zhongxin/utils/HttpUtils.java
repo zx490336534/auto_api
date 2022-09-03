@@ -2,6 +2,7 @@ package com.zhongxin.utils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.zhongxin.pojo.CaseInfo;
+
 import org.apache.http.Header;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpRequest;
@@ -17,12 +18,14 @@ import org.apache.log4j.Logger;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+/**
+ * Http请求
+ */
 public class HttpUtils {
-    private static Logger logger = Logger.getLogger(HttpUtils.class);
+    private static final Logger logger = Logger.getLogger(HttpUtils.class);
 
     /**
      * 根据请求参数对象
@@ -54,27 +57,40 @@ public class HttpUtils {
     }
 
     /**
+     * 设置请求头
+     *
+     * @param headers 包含了请求头的Map集合
+     * @param request 请求类型
+     */
+    private static void setHeaders(Map<String, String> headers, HttpRequest request) {
+        Set<String> keySet = headers.keySet();
+        for (String key : keySet) {
+            request.setHeader(key, headers.get(key));
+        }
+    }
+
+    /**
      * json字符串转换成key=value
      * 例如:{"mobilephone":"13877788811","pwd":"12345678"} => mobilephone=13877788811&pwd=12345678
      *
      * @param json Json字符串
-     * @return
      */
     private static String jsonStr2KeyValueStr(String json) {
         Map<String, String> map = JSONObject.parseObject(json, Map.class);
-        String formParams = "";
+        StringBuilder formParams = new StringBuilder();
         for (String key : map.keySet()) {
-            formParams += key + "=" + map.get(key) + "&";
+            String tmp = key + "=" + map.get(key) + "&";
+            formParams.append(tmp);
         }
         return formParams.substring(0, formParams.length() - 1);
     }
 
-
-    /*
+    /**
      * 发送get请求
-     * @param url       接口地址
-     * @throws
-     * */
+     *
+     * @param url     接口地址
+     * @param headers 请求头
+     */
     public static String get(String url, Map<String, String> headers) throws Exception {
         HttpGet get = new HttpGet(url);
         setHeaders(headers, get);
@@ -83,13 +99,13 @@ public class HttpUtils {
         return printResponse(response);
     }
 
-
-    /*
+    /**
      * 发送一个post请求
-     * @param url        接口地址
-     * @param params     接口参数
-     * @throws
-     * */
+     *
+     * @param url     接口地址
+     * @param params  接口参数
+     * @param headers 请求头
+     */
     public static String post(String url, String params, Map<String, String> headers) throws Exception {
         HttpPost post = new HttpPost(url);
         setHeaders(headers, post);
@@ -100,13 +116,13 @@ public class HttpUtils {
         return printResponse(response);
     }
 
-
-    /*
+    /**
      * 发送一个patch请求
-     * @param url        接口地址
-     * @param params     接口参数
-     * @throws
-     * */
+     *
+     * @param url     接口地址
+     * @param params  接口参数
+     * @param headers 请求头
+     */
     public static String patch(String url, String params, Map<String, String> headers) throws Exception {
         HttpPatch patch = new HttpPatch(url);
         setHeaders(headers, patch);
@@ -121,8 +137,6 @@ public class HttpUtils {
      * 打印响应
      *
      * @param response 响应对象
-     * @return
-     * @throws IOException
      */
     private static String printResponse(HttpResponse response) throws IOException {
         int statusCode = response.getStatusLine().getStatusCode();
@@ -135,16 +149,4 @@ public class HttpUtils {
         return body;
     }
 
-    /**
-     * 设置请求头
-     *
-     * @param headers 包含了请求头的Map集合
-     * @param request 请求类型
-     */
-    private static void setHeaders(Map<String, String> headers, HttpRequest request) {
-        Set<String> keySet = headers.keySet();
-        for (String key : keySet) {
-            request.setHeader(key, headers.get(key));
-        }
-    }
 }

@@ -1,10 +1,12 @@
 package com.zhongxin.cases;
 
 import cn.afterturn.easypoi.excel.annotation.Excel;
+
 import com.alibaba.fastjson.JSONObject;
 import com.zhongxin.pojo.CaseInfo;
 import com.zhongxin.pojo.WriteBackData;
 import com.zhongxin.utils.*;
+
 import org.apache.commons.lang3.StringUtils;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
@@ -55,7 +57,7 @@ public class RegisterCase extends BaseCase {
 
     @DataProvider
     public Object[] datas() {
-        List list = ExcelUtils.read(this.sheetIndex, 1, CaseInfo.class);
+        List list = ExcelUtils.read(null, this.sheetIndex, 1, CaseInfo.class);
         return list.toArray();
     }
 }

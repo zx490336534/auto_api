@@ -33,7 +33,7 @@ public class UserInfoCase extends BaseCase {
 
     @DataProvider
     public Object[] datas() {
-        List list = ExcelUtils.read(this.sheetIndex, 1, CaseInfo.class);
+        List list = ExcelUtils.read(null, this.sheetIndex, 1, CaseInfo.class);
         return list.toArray();
     }
 }

@@ -1,60 +1,30 @@
 package com.zhongxin.pojo;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+/**
+ * 待写入Excel的数据格式
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class WriteBackData {
+    /**
+     * sheet索引
+     */
     private int sheetIndex;
+    /**
+     * 行号
+     */
     private int rowNum;
+    /**
+     * 列号
+     */
     private int cellNum;
+    /**
+     * 内容
+     */
     private String content;
-
-    public WriteBackData(int sheetIndex, int rowNum, int cellNum, String content) {
-        this.sheetIndex = sheetIndex;
-        this.rowNum = rowNum;
-        this.cellNum = cellNum;
-        this.content = content;
-    }
-
-    public WriteBackData() {
-    }
-
-    @Override
-    public String toString() {
-        return "WriteBackData{" +
-                "sheetIndex=" + sheetIndex +
-                ", rowNum=" + rowNum +
-                ", cellNum=" + cellNum +
-                ", content='" + content + '\'' +
-                '}';
-    }
-
-    public int getSheetIndex() {
-        return sheetIndex;
-    }
-
-    public void setSheetIndex(int sheetIndex) {
-        this.sheetIndex = sheetIndex;
-    }
-
-    public int getRowNum() {
-        return rowNum;
-    }
-
-    public void setRowNum(int rowNum) {
-        this.rowNum = rowNum;
-    }
-
-    public int getCellNum() {
-        return cellNum;
-    }
-
-    public void setCellNum(int cellNum) {
-        this.cellNum = cellNum;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
 }

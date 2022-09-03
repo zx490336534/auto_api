@@ -1,6 +1,7 @@
 package com.zhongxin.utils;
 
 import com.zhongxin.pojo.Member;
+
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.handlers.BeanHandler;
 import org.apache.commons.dbutils.handlers.BeanListHandler;
@@ -13,6 +14,9 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * 执行SQL语句
+ */
 public class SQLUtils {
     public static void main(String[] args) throws Exception {
         scalarHandler();
@@ -85,7 +89,7 @@ public class SQLUtils {
 
     public static void insert() throws SQLException {
         QueryRunner runner = new QueryRunner();
-        String sql = "INSERT INTO member VALUES(NULL,'zhong','123456','15168230600,1,100,NOW());";
+        String sql = "INSERT INTO member VALUES(NULL,'zhong','123456','15168230600',1,100,NOW());";
         Connection conn = JDBCUtils.getConnection();
         int count = runner.update(conn, sql);
         System.out.println(count);

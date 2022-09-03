@@ -19,7 +19,7 @@ import java.util.Set;
 
 public class BaseCase {
     public int sheetIndex;
-    private static Logger logger = Logger.getLogger(HttpUtils.class);
+    private static final Logger logger = Logger.getLogger(HttpUtils.class);
 
     @BeforeClass
     @Parameters({"sheetIndex"})

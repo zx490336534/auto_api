@@ -3,7 +3,6 @@ package com.zhongxin.utils;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 
 public class ExcelUtils_bak {
@@ -29,9 +28,6 @@ public class ExcelUtils_bak {
                 }
                 System.out.println();
             }
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
